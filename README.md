@@ -1,3 +1,3 @@
 # Tidy-Tuesday
 
-This Tidy Tuesday repository will hold all of the tidy tuesday completed during the spring semester for Biology 551. 
+This repository will hold all of the tidy tuesdays completed during the spring semester for Biology 551. 
