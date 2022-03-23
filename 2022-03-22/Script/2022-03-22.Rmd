@@ -1,0 +1,49 @@
+---
+title: "Tidy Tuesday- Baby names"
+author: "Ashlee"
+date: "3/22/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.path = '../Output/')
+```
+
+# Introduction 
+This is my tidy Tuesday for 2022-03-22 on baby names. 
+
+# Loading Libraries 
+```{r, warning=FALSE, message=FALSE}
+library(here)
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+```
+# Loading data 
+```{r, warning=FALSE, message=FALSE}
+babynames <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-03-22/babynames.csv')
+
+```
+# Wrangling Data 
+```{r, warning=FALSE, message=FALSE}
+baby <- babynames %>% 
+  filter(year >= 2010) %>% 
+#  filter(sex== "F") %>% 
+  filter(name== "Andre" | name == "Ava" | name == "Mia" | name == "Tiffany" | name == "Leslie" | name == "Daniel")
+```
+# Plotting 
+The distribution of the gender names Andre, Ava, Mia, Tiffany, Leslie, and, Daniel from the year 2010 to 2017.
+```{r 2022-03-22, warning=FALSE, message=FALSE}
+baby %>% 
+  ggplot(aes(x= name, y= year,
+             color = sex)) +
+  geom_jitter(size = 0.80,
+              width = 0.20) +
+  labs(x= "Names", y= "Year",
+       color = "Sex", 
+       title = "Distribution of Gender Names") +
+  theme_classic() +
+    theme(plot.title = element_text(hjust = 0.50)) 
+
+```
+
