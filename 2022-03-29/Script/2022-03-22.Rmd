@@ -1,0 +1,64 @@
+---
+title: '2022-03-29'
+author: "Ashlee"
+date: "3/29/2022"
+output: 
+html_document:
+  theme: paper
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.path = '../Output/')
+```
+
+# Introduction 
+This is my Tidy Tuesday for 2022-03-29 on Collegiate Sports
+
+# Loading Libraries 
+```{r, warning=FALSE,message=FALSE}
+library(tidyverse)
+library(ggplot2)
+library(here)
+library(dplyr)
+library(maps)
+library(mapdata)
+```
+
+# Loading Data 
+```{r, warning=FALSE, message=FALSE}
+sports <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-03-29/sports.csv')
+
+```
+# Data Wrangling 
+```{r, warning=FALSE, message=FALSE}
+ deportes <- sports %>% 
+  select(state_cd, sports, institution_name, partic_women, partic_men) %>% 
+ # mutate(fcount = (ef_female_count/ ef_total_count)*100) %>% 
+  filter(state_cd == "CA", ## selecting only california and basketball 
+         sports == "Basketball", 
+         institution_name == "California State Polytechnic University-Pomona" | institution_name == "California Polytechnic State University-San Luis Obispo" | institution_name == "California State University-Bakersfield" | institution_name == "California State University-Stanislaus" | institution_name == "California State University-San Bernardino" | institution_name == "California State University-Chico" | institution_name == "San Diego State University" | institution_name == "San Jose State University" | institution_name == "San Francisco State University" | institution_name == "California State University-San Marcos" | institution_name == "California State University-Monterey Bay" | institution_name == "California State University-Dominguez Hills" | institution_name == "California State University-Fresno" |institution_name == "California State University-Fullerton" |institution_name == "California State University-East Bay" | institution_name == "California State University-Long Beach" | institution_name == "California State University-Los Angeles" | institution_name == "California State University-Northridge" | institution_name == "California State University-Sacramento") %>% 
+  drop_na()
+## selecting for California state schools from given data set
+
+states<- map_data("state")
+CAdata <- states %>% 
+  filter(region == "california")
+
+
+```
+# Graphing 
+Graphing the participation of women in basketball at California state schools beginning with Cal State Pomona, San Luis Obispo, Bakersfield, Stanislaus, San Bernadino, Chico, San Diego State, San Jose State, San Francisco State, San Marcos, Monterey Bay, Dominguez Hills, Fresno, Fullerton, East Bay, Long Beach, Los Angeles, Northridge, and Sacramento respectively. 
+```{r basketball, warning=FALSE, message=FALSE, fig.align='center'}
+deportes %>% 
+ggplot(aes(x=institution_name, y= partic_women, ## graphing participation of women in bball
+           fill = sports)) +
+  geom_boxplot() +
+  labs(y= "Women Participation", x= "California State University", 
+       title = "Women Participation in Basketball",
+       fill = "Basketball") +
+  theme_void() +
+      theme(plot.title = element_text(hjust = 0.50),
+            legend.position = "none")
+  
+```
+
