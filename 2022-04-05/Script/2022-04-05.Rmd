@@ -1,0 +1,46 @@
+---
+title: 'Tidy Tuesday Publications List'
+author: "Ashlee"
+date: "4/5/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE, warning=FALSE,message=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.path = '../Output/')
+```
+
+# Introduction 
+This is my Tidy Tuesday for 2022-04-05 on Publications List 
+
+# Loading Libraries 
+```{r, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+library(here)
+```
+# Loading Data 
+```{r, warning=FALSE, message=FALSE}
+news_orgs <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-04-05/news_orgs.csv')
+```
+# Wrangling Data 
+```{r, warning=FALSE,message=FALSE}
+news <- news_orgs %>% 
+  select(publication_name, parent_publication, owner, state, city, year_founded) %>% 
+  filter(state== "OH" | state== "TX" |state== "CA" | state== "NY") %>% 
+  drop_na() # wrangling and selecting for four states from the data provided 
+```
+
+# Graphing Data
+For the Tidy Tuesday this week, I have plotted the selected states and the publication name with points corresponding to cities in each state. 
+```{r publications, warning=FALSE, message=FALSE}
+news %>% 
+  ggplot(aes(x= state, y= publication_name, 
+             color= city)) +
+  geom_point() +
+  labs(title= "A Handful of Publications", x = "State", y= "Publication Name", 
+       color = "City") +
+  theme_minimal()
+
+```
+
