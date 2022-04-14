@@ -1,0 +1,46 @@
+---
+title: 'Indoor Air pollution'
+author: "Ashlee"
+date: "4/14/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.path = '../Output/')
+```
+
+# Introduction
+This is my Tidy Tuesday for 2022-04-12 on Indoor Air Pollution. An example of a tidy tuesday plot we would NOT want to use. 
+
+# Libraries
+```{r, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+```
+
+# Data
+```{r, warning=FALSE,message=FALSE}
+indoor_pollution <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-04-12/indoor_pollution.csv')
+
+```
+Wrangling Data
+```{r, warning=FALSE, message=FALSE}
+data <- indoor_pollution %>% 
+  filter(Entity == "Brazil" | Entity == "China") %>% 
+  drop_na()
+```
+
+# Plotting Data
+An example of a graph that we DON'T want. There are no labels or clear points. There is no direction of where this plot is going or what data it is using. No clear message, whatsoever!   
+```{r Pollution, warning=FALSE, message=FALSE}
+data %>% 
+  ggplot(aes(x= Entity, y= Year,
+             color = Code)) +
+  geom_boxplot() + 
+  guides(color = FALSE) +
+  theme_void()
+
+  
+```
+
